@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"os"
 )
 
 func main() {
@@ -14,15 +16,12 @@ func main() {
 	}
 	defer conn.Close()
 	for {
-		var source string
-		fmt.Print("What is the European country ")
-		_, err := fmt.Scanln(&source)
-		if err != nil {
-			fmt.Println("no such country", err)
-			continue
-		}
 
-		if n, err := conn.Write([]byte(source)); n == 0 || err != nil {
+		fmt.Print("What is the European country ")
+		inputReader := bufio.NewReader(os.Stdin)
+		input, _ := inputReader.ReadString('\n')
+
+		if n, err := conn.Write([]byte(input)); n == 0 || err != nil {
 			fmt.Println(err)
 			return
 		}

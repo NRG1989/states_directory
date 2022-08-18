@@ -82,15 +82,13 @@ func handleConnection(conn net.Conn) {
 			fmt.Println("Read error:", err)
 			break
 		}
-		source := string(input[0:n])
+		source := string(input[0 : n-1])
 		source = strings.Title(source)
 
-		target, ok := dict[source]
+		target, ok := dict[strings.Title(source)]
 		if ok == false {
 			target = "undefined"
 		}
-
-		fmt.Println(source, "-", target)
 
 		conn.Write([]byte(target))
 	}
