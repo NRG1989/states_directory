@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net"
 	"strings"
+
+	"golang.org/x/text/cases"
 )
 
 var dict = map[string]string{
@@ -76,17 +78,18 @@ func handleConnection(conn net.Conn) {
 	defer conn.Close()
 	for {
 
-		input := make([]byte, (1024 * 4))
+		input := make([]byte, 1024*4)
 		n, err := conn.Read(input)
 		if n == 0 || err != nil {
 			fmt.Println("Read error:", err)
 			break
 		}
 		source := string(input[0 : n-1])
-		source = strings.Title(source)
+		caser := cases.Title(language.English)
+		source = caser.String(source)
 
 		target, ok := dict[strings.Title(source)]
-		if ok == false {
+		if !ok {
 			target = "undefined"
 		}
 
