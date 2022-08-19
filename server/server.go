@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"net"
-	"strings"
 
 	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var dict = map[string]string{
@@ -84,11 +84,13 @@ func handleConnection(conn net.Conn) {
 			fmt.Println("Read error:", err)
 			break
 		}
-		source := string(input[0 : n-1])
+		source := string(input[0:n])
+
+		fmt.Println(source)
 		caser := cases.Title(language.English)
 		source = caser.String(source)
 
-		target, ok := dict[strings.Title(source)]
+		target, ok := dict[source]
 		if !ok {
 			target = "undefined"
 		}
