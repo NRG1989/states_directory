@@ -7,6 +7,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func main() {
@@ -33,8 +36,8 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-
-		fmt.Printf("the capital of %v: ", input)
+		caser := cases.Title(language.AmericanEnglish)
+		fmt.Printf("the capital of %v: ", caser.String(input))
 		buff := make([]byte, 1024)
 		n, err := conn.Read(buff)
 		if err != nil {
